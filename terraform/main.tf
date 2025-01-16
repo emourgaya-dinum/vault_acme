@@ -1,6 +1,6 @@
 provider "vault" {
   address = var.vault_addr
-  token   = "root"
+  token   = var.vault_token
 }
 
 # Effectuer l'unseal de Vault
