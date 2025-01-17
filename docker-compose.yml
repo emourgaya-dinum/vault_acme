@@ -14,3 +14,50 @@ services:
     command: server -dev
     volumes:
       - ./vault/data:/openbao/file
+
+  # pdns-mysql:
+  #   image: mariadb:10.1
+  #   container_name: pdns-mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: supersecret
+  #     MYSQL_DATABASE: pdns-admin
+  #     MYSQL_USER: pdns
+  #     MYSQL_PASSWORD: pdnspass
+  #   volumes:
+  #     - ./mysql-data:/var/lib/mysql
+  #   restart: unless-stopped
+
+  # pdns:
+  #   image: psitrax/powerdns
+  #   container_name: pdns
+  #   depends_on:
+  #     - pdns-mysql
+  #   ports:
+  #     - "53:53"
+  #     - "53:53/udp"
+  #   environment:
+  #     MYSQL_USER: root
+  #     MYSQL_PASS: supersecret
+  #     MYSQL_HOST: pdns-mysql
+  #     MYSQL_PORT: 3306
+  #   command: >
+  #     --cache-ttl=120
+  #     --allow-axfr-ips=127.0.0.1,123.1.2.3
+  #   restart: unless-stopped
+
+  # pdns-admin:
+  #     image: ngoduykhanh/powerdns-admin:latest
+  #     container_name: pdns-admin
+  #     depends_on:
+  #       - pdns
+  #     ports:
+  #       - "8080:80"
+  #     environment:
+  #       - PDNS_STATS_URL=http://localhost:8081/api/v1
+  #       - PDNS_API_KEY=your_api_key_here
+  #       - PDNS_VERSION=4.1.1
+  #       - SQLA_DB_HOST=pdns-mysql
+  #       - SQLA_DB_USER=root
+  #       - SQLA_DB_PASSWORD=supersecret
+  #       - SQLA_DB_NAME=powerdns
+  #     restart: unless-stopped

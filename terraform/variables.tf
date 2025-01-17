@@ -4,6 +4,12 @@ variable "vault_addr" {
   default     = "http://127.0.0.1:8200"
 }
 
+variable "vault_token" {
+  type        = string        
+  description = " token de  vaulr"
+  default     = ""
+}
+
 variable "unseal_keys" {
   type        = list(string)
   description = "List of unseal_key"
