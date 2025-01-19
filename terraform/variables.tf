@@ -38,3 +38,13 @@ variable "allowed_domain"{
   type = string
   description = "nom de  domain a signer"
 }
+
+variable "powerdns_addr"{
+  type = string
+  description = "address api"
+}
+
+variable "powerdns_api_key"{
+  type = string
+  description = "address api"
+}

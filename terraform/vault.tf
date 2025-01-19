@@ -146,5 +146,3 @@ resource "vault_generic_endpoint" "enable_acme" {
     allowed_roles = ["*"]
   })
 }
-
-
