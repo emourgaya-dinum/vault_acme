@@ -26,6 +26,7 @@ services:
       - pdns-network
   pdns:
     image: psitrax/powerdns
+    platform: linux/amd64
     container_name: pdns
     ports:
       - "53:53"
@@ -35,9 +36,15 @@ services:
       MYSQL_USER: root
       MYSQL_PASS: root
       MYSQL_PORT: 3306
+      API_KEY:
     command: >
       --cache-ttl=120
       --allow-axfr-ips=127.0.0.1,123.1.2.3
+      --webserver=yes
+      --webserver-address=0.0.0.0
+      --api=yes
+      --api-key=APIKEY
+      --webserver-allow-from=0.0.0.0/0
     depends_on:
       - db
     networks:

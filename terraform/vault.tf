@@ -3,7 +3,6 @@ provider "vault" {
   token   = var.vault_token
 }
 
-# Effectuer l'unseal de Vault
 resource "null_resource" "vault_unseal" {
   provisioner "local-exec" {
     command = <<EOT
@@ -12,16 +11,14 @@ resource "null_resource" "vault_unseal" {
   }
 }
 
-# # Configuration du backend PKI pour l'autorité intermédiaire
 resource "vault_mount" "pki_intermediate" {
     depends_on = [ null_resource.vault_unseal ]
   path        = var.pki_mount_path
   type        = "pki"
   description = "Intermediate Certificate Authority"
-  max_lease_ttl_seconds = 31536000 # 1 year
+  max_lease_ttl_seconds = 31536000 
 }
 
-# generate csr to sign 
 resource "vault_pki_secret_backend_intermediate_cert_request" "csr" {
   backend     = vault_mount.pki_intermediate.path
   type        = "exported" 
@@ -80,7 +77,6 @@ data "local_file" "signed_certificate" {
   filename   = "${path.module}/intermediate.pem"
 }
 
-# Import du certificat signé dans Vault
 resource "vault_pki_secret_backend_intermediate_set_signed" "intermediate" {
   depends_on  = [null_resource.sign_certificate]
   backend     = vault_mount.pki_intermediate.path
@@ -96,7 +92,6 @@ resource "vault_pki_secret_backend_config_urls" "distrib" {
 }
 
 
-# # # Créer un rôle pour émettre des certificats
 resource "vault_pki_secret_backend_role" "pki_role" {
   backend             = vault_mount.pki_intermediate.path
   name                = "pki_role"

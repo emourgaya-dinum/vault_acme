@@ -12,7 +12,7 @@ provider "powerdns" {
 }
 
 resource "powerdns_zone" "example_zone" {
-  name        = "example.com." 
+  name        = "example.local." 
   kind        = "Master"
-  nameservers = ["ns.example.com."]
+  nameservers = ["ns.example.local."]
 }
