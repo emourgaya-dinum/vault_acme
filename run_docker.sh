@@ -6,5 +6,6 @@ export OPENBAO_DEV_ROOT_TOKEN_ID="root"
 
  mkdir ./mysql-data
 
- docker-compose up -d # ou docker-compose up
- 
+docker-compose up -d
+docker logs openbao 2>/dev/null|grep "Root Token"
+docker logs openbao 2>/dev/null|grep "Unseal Key" 

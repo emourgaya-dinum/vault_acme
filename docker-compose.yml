@@ -36,15 +36,15 @@ services:
       MYSQL_USER: root
       MYSQL_PASS: root
       MYSQL_PORT: 3306
-      API_KEY:
-    command: >
-      --cache-ttl=120
-      --allow-axfr-ips=127.0.0.1,123.1.2.3
+      # PDNS_API_KEY: APIKEY
+      # PDNS_WEBSERVER: yes
+    command:
       --webserver=yes
-      --webserver-address=0.0.0.0
-      --api=yes
-      --api-key=APIKEY
       --webserver-allow-from=0.0.0.0/0
+      --api=yes
+      --api-key="APIKEY"
+    # volumes:
+    #   - ./confs/pdns:/etc/pdns/conf.d
     depends_on:
       - db
     networks:
